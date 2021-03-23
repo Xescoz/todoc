@@ -13,7 +13,7 @@ import com.cleanup.todoc.repositories.TaskRepository;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public class TodocViewModel extends AndroidViewModel {
+public class TodocViewModel extends ViewModel {
 
     private final ProjectRepository projectDataSource;
     private final TaskRepository taskDataSource;
