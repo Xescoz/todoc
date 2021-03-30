@@ -24,5 +24,5 @@ public class TaskRepository {
 
     public void deleteTask(long taskId){taskDao.deleteTask(taskId);}
 
-    public List<Task> getAllTasks(){return taskDao.getAllTasks();}
+    public LiveData<List<Task>> getAllTasks(){return taskDao.getAllTasks();}
 }

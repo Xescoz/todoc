@@ -2,10 +2,8 @@ package com.cleanup.todoc.room;
 
 import android.app.Application;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -13,7 +11,6 @@ import com.cleanup.todoc.repositories.ProjectRepository;
 import com.cleanup.todoc.repositories.TaskRepository;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 
 public class TodocViewModel extends AndroidViewModel {
 
@@ -39,7 +36,7 @@ public class TodocViewModel extends AndroidViewModel {
         return taskDataSource.getTask(taskId);
     }
 
-    public List<Task> getAllTasks() {
+    public LiveData<List<Task>> getAllTasks() {
         return taskDataSource.getAllTasks();
     }
 

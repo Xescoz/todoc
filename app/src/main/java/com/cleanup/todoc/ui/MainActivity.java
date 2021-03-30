@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all current tasks of the application
      */
     @NonNull
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
@@ -121,10 +121,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     public void initTasks(){
-        List<Task> tasksData = mTodocViewModel.getAllTasks();
-        for(int i = 0; i<tasksData.size();i++){
-            addTask(tasksData.get(i));
-        }
+        mTodocViewModel.getAllTasks().observe(this, tasksList -> {
+            tasks = tasksList;
+            updateTasks();
+        });
+
     }
 
     @Override
