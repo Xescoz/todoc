@@ -20,9 +20,15 @@ public class TaskRepository {
     }
     public LiveData<Task> getTask(long taskId){return this.taskDao.getTask(taskId);}
 
-    public void createTask(Task task){taskDao.insert(task);}
+    public void createTask(Task task){TodocDatabase.databaseWriteExecutor.execute(() -> {
+        taskDao.insert(task);
+    });}
 
-    public void deleteTask(long taskId){taskDao.deleteTask(taskId);}
+    public void deleteTask(long taskId){TodocDatabase.databaseWriteExecutor.execute(() -> {
+        taskDao.deleteTask(taskId);
+    });}
 
     public LiveData<List<Task>> getAllTasks(){return taskDao.getAllTasks();}
+
+    public void deleteAllTasks(){taskDao.deleteAllTasks();}
 }

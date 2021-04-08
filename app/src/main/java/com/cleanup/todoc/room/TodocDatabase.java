@@ -25,7 +25,7 @@ public abstract class TodocDatabase extends RoomDatabase {
     public abstract ProjectDao projectDao();
 
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static TodocDatabase getDatabase(final Context context) {
@@ -34,7 +34,6 @@ public abstract class TodocDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TodocDatabase.class, "todoc_database")
-                            .allowMainThreadQueries()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }

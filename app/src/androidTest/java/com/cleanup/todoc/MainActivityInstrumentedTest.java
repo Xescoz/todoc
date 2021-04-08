@@ -3,13 +3,16 @@ package com.cleanup.todoc;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
+import com.cleanup.todoc.room.TodocViewModel;
 import com.cleanup.todoc.ui.MainActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +38,14 @@ import static org.junit.Assert.assertThat;
 public class MainActivityInstrumentedTest {
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void setup() {
+        TodocViewModel todocViewModel;
+        MainActivity activity = rule.getActivity();
+        todocViewModel = new ViewModelProvider(activity, ViewModelProvider.AndroidViewModelFactory.getInstance(activity.getApplication())).get(TodocViewModel.class);
+        todocViewModel.deleteAllTasks();
+    }
 
     @Test
     public void addAndRemoveTask() {
@@ -75,12 +86,7 @@ public class MainActivityInstrumentedTest {
         onView(withId(R.id.txt_task_name)).perform(replaceText("hhh Tâche example"));
         onView(withId(android.R.id.button1)).perform(click());
 
-        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
-        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
-        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+
 
         // Sort alphabetical
         onView(withId(R.id.action_filter)).perform(click());

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cleanup.todoc.dao.ProjectDao;
 import com.cleanup.todoc.model.Project;
+import com.cleanup.todoc.model.Task;
 import com.cleanup.todoc.room.TodocDatabase;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public class ProjectRepository {
     public LiveData<Project> getProject(long projectId){return this.projectDao.getProject(projectId);}
 
     public LiveData<List<Project>> getAllProjects(){return projectDao.getAllProjects();}
+
+    public void createProject(Project project){TodocDatabase.databaseWriteExecutor.execute(() -> {
+        projectDao.insert(project);
+    });}
 }

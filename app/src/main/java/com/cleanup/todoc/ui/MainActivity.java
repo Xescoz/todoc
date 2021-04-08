@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @NonNull
     private TextView lblNoTasks;
 
-    private TodocViewModel mTodocViewModel;
+    private TodocViewModel todocViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
-        mTodocViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(TodocViewModel.class);
+        todocViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(TodocViewModel.class);
         // Update the cached copy of the words in the adapter.
         initTasks();
 
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     public void initTasks(){
-        mTodocViewModel.getAllTasks().observe(this, tasksList -> {
+        todocViewModel.getAllTasks().observe(this, tasksList -> {
             tasks = tasksList;
             updateTasks();
         });
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(Task task) {
         tasks.remove(task);
-        mTodocViewModel.deleteTask(task.getId());
+        todocViewModel.deleteTask(task.getId());
         updateTasks();
     }
 
@@ -195,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 );
 
                 addTask(task);
-                mTodocViewModel.createTask(task);
 
                 dialogInterface.dismiss();
             }
@@ -231,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void addTask(@NonNull Task task) {
         tasks.add(task);
+        todocViewModel.createTask(task);
         updateTasks();
     }
 

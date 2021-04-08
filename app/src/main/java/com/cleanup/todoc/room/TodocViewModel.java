@@ -28,6 +28,10 @@ public class TodocViewModel extends AndroidViewModel {
         return projectDataSource.getProject(projectId);
     }
 
+    public void createProject(Project project){TodocDatabase.databaseWriteExecutor.execute(() -> {
+        projectDataSource.createProject(project);
+    });}
+
     public LiveData<List<Project>> getAllProjects() {
         return projectDataSource.getAllProjects();
     }
@@ -48,5 +52,7 @@ public class TodocViewModel extends AndroidViewModel {
         taskDataSource.deleteTask(taskId);
 
     }
+
+    public void deleteAllTasks(){taskDataSource.deleteAllTasks();}
 
 }
