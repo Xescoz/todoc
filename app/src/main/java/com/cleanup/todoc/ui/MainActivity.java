@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all projects available in the application
      */
-    private final Project[] allProjects = Project.getAllProjects();
+    private List<Project> allProjects = new ArrayList<>();
 
     /**
      * List of all current tasks of the application
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         todocViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(TodocViewModel.class);
         // Update the cached copy of the words in the adapter.
         initTasks();
+        initProject();
 
 
         findViewById(R.id.fab_add_task).setOnClickListener(new View.OnClickListener() {
@@ -122,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     public void initTasks(){
         todocViewModel.getAllTasks().observe(this, tasksList -> {
             tasks = tasksList;
+            updateTasks();
+        });
+
+    }
+
+    public void initProject(){
+        todocViewModel.getAllProjects().observe(this, projectsList -> {
+            allProjects = projectsList;
             updateTasks();
         });
 
